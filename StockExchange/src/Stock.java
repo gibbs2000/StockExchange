@@ -1,18 +1,16 @@
 import java.text.DecimalFormat;
 import java.util.PriorityQueue;
 
-public class Stock implements Comparable<Stock>{
+public class Stock implements Comparable<Stock> {
 
 	public static DecimalFormat money = new DecimalFormat("$#,##0.00");
-	
+
 	private String symbol;
 	private String name;
 	private double lowPrice, lastPrice, highPrice;
 	private PriorityQueue<TradeOrder> buy;
 	private PriorityQueue<TradeOrder> sell;
 
-	
-	
 	public Stock(String s, String n, double p) {
 		symbol = s;
 		name = n;
@@ -42,19 +40,18 @@ public class Stock implements Comparable<Stock>{
 		return highPrice;
 	}
 
-
 	public DecimalFormat getMoney() {
 		return money;
 	}
 
 	@Override
 	public String toString() {
-		return getSymbol() + " " + getName() + " " + getMoney().format(getPrice());
+		return getSymbol() + " " + getName() + " " + getMoney().format(getLastPrice());
 	}
 
 	@Override
-	public int compareTo(Stock arg0) {
-		return (int) getLastPrice()-s.getLastPrice();
+	public int compareTo(Stock o) {
+		return Math.signum((getLastPrice() - o.getLastPrice()));
 	}
 
 }
