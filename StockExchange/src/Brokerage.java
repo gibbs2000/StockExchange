@@ -44,7 +44,8 @@ public class Brokerage implements Login {
 	 * 
 	 */
 	public void logout(Trader t) {
-		activeTraders.remove(t);
+		if (activeTraders.contains(t))
+			activeTraders.remove(t);
 	}
 
 	/**
