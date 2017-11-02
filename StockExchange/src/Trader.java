@@ -90,14 +90,22 @@ public class Trader implements Comparable<Trader> {
 	}
 
 	/**
-	 * Logs out this trader.
+	 * Logs out this trader. Calls brokerage's logout for this trader. Sets myWindow
+	 * to null (this method is called from a TraderWindow's window listener when the
+	 * "close window" button is clicked).
 	 */
 	public void quit() {
 		b.logout(this);
 	}
 
+	/**
+	 * Places a given order with the brokerage by calling brokerage's placeOrder.
+	 * 
+	 * @param tradeOrder
+	 *            a trading order to be placed.
+	 */
 	public void placeOrder(TradeOrder tradeOrder) {
-		// TODO Auto-generated method stub
+		b.placeOrder(tradeOrder);
 
 	}
 

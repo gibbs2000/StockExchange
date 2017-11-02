@@ -5,10 +5,12 @@ public class Brokerage implements Login {
 
 	private TreeMap<String, Trader> traders;
 	private TreeSet<Trader> activeTraders;
+	private StockExchange exchange;
 
 	Brokerage(StockExchange exchange) {
 		traders = new TreeMap<String, Trader>();
 		activeTraders = new TreeSet<Trader>();
+		this.exchange = exchange;
 	}
 
 	@Override
@@ -32,7 +34,9 @@ public class Brokerage implements Login {
 			return -3;
 		if (!active.getPassword().equals(password))// wrong password
 			return -2;
-
+		activeTraders.add(active);
+		active.openWindow();
+		active.receiveMessage("Welcome to SafeTrade");
 		return 0; // if no errors
 	}
 
@@ -58,7 +62,7 @@ public class Brokerage implements Login {
 	 *            the trader who requested a quote.
 	 */
 	public void getQuote(String symbol, Trader trader) {
-		// TODO finish, include the receiveMessage from Trader
+		trader.receiveMessage(exchange.getQuote(symbol));
 	}
 
 	/**
@@ -68,7 +72,7 @@ public class Brokerage implements Login {
 	 *            an order to be placed at the stock exchange.
 	 */
 	public void placeOrder(TradeOrder order) {
-		// TODO finish
+		exchange.placeOrder(order);
 	}
 
 }
