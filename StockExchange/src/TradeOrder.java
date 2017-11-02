@@ -99,6 +99,7 @@ public class TradeOrder {
 		return symbol;
 	}
 
+	@Override
 	public String toString() {
 		String buyOrSell, marketOrLimit;
 		if (buy)

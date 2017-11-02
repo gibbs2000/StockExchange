@@ -86,4 +86,54 @@ public class Stock implements Comparable<Stock> {
 		return (int) Math.signum((getLastPrice() - o.getLastPrice()));
 	}
 
+	public String getQuote() {
+		String qt = this.getName() + " (" + this.getSymbol() + ")\n" + "Price: " + this.getLastPrice() + "\t" + "hi: "
+				+ this.getHighPrice() + "\t" + "low: " + this.getLowPrice() + "\t" + "vol: " + this.getVol() + "\n";
+		qt += "Ask: ";
+		if (!buy.isEmpty()) {
+			qt += buy.peek().getPrice();
+			qt += " size: " + buy.peek().getShares();
+		} else
+			qt += "none ";
+
+		qt += "Bid: ";
+		if (!sell.isEmpty()) {
+			qt += sell.peek().getPrice();
+			qt += "size: " + sell.peek().getShares();
+		} else
+			qt += "none ";
+		return qt;
+	}
+
+	/**
+	 * Places a trading order for this stock. Adds the order to the appropriate
+	 * priority queue depending on whether this is a buy or sell order. Notifies the
+	 * trader who placed the order that the order has been placed, by sending a
+	 * message to that trader. For example: New order: Buy GGGL (Giggle.com) 200
+	 * shares at $38.00 Or: New order: Sell GGGL (Giggle.com) 150 shares at market
+	 * Executes pending orders by calling executeOrders.
+	 * 
+	 * @param order
+	 *            a trading order to be placed.
+	 */
+	public void placeOrder(TradeOrder order) {
+		String msg = "New order: ";
+		if (order.isBuy()) {
+			buy.add(order);
+			msg += "Buy ";
+
+		}
+		if (order.isSell()) {
+			sell.add(order);
+			msg += "Sell ";
+		}
+		msg += this.getSymbol() + "  " + this.getName();
+		msg += "\n" + order.getShares() + " shares at ";
+		if (order.isLimit())
+			msg += order.getPrice();
+		else
+			msg += "market";
+		order.getTrader().receiveMessage(msg);
+	}
+
 }
